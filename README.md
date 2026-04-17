@@ -1,6 +1,6 @@
 # ShopLD - E-commerce Web
 
-Chào mừng bạn đến với mô hình dự án website bán hàng **ShopLD** (trước đây là KenMujo). Đây là một dự án Front-end được xây dựng bằng ReactJS và Vite, với mục tiêu mang đến trải nghiệm mua sắm nhanh chóng, mượt mà và giao diện hiện đại.
+Chào mừng bạn đến với mô hình dự án website bán hàng **ShopLD**. Đây là một dự án Front-end được xây dựng bằng ReactJS và Vite, với mục tiêu mang đến trải nghiệm mua sắm nhanh chóng, mượt mà và giao diện hiện đại.
 
 ## ✨ Các tính năng nổi bật
 
