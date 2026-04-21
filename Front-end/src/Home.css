@@ -157,6 +157,41 @@ body {
   border-color: var(--primary-hover);
 }
 
+/* --- Navigation Links (react-router-dom NavLink) --- */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 50px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+  background-color: #eef2ff;
+}
+
+.nav-link--active {
+  color: var(--primary-color);
+  background-color: #eef2ff;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .header-nav { display: none; }
+}
+
+
 /* --- CategoryMenu Component --- */
 .category-menu {
   background-color: var(--white);

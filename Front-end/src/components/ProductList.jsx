@@ -29,7 +29,7 @@ const ProductList = ({ selectedCategory, productsData, onAddToCart, onViewDetail
         ) : (
           <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "3rem", color: "var(--text-light)" }}>
             <p style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>Rất tiếc!</p>
-            <p>Hiện chưa có sản phẩm nào thuộc danh mục "{selectedCategory}".</p>
+            <p>Hiện chưa có sản phẩm nào thuộc danh mục &quot;{selectedCategory}&quot;.</p>
           </div>
         )}
       </div>

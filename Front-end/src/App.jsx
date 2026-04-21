@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import CategoryMenu from './components/CategoryMenu';
 import ProductList from './components/ProductList';
 import ProductDetail from './components/ProductDetail';
 import Footer from './components/Footer';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 // Dữ liệu và CSS
 import { mockProducts } from './data/products';
 import './Home.css';
 
-function App() {
+// ── Trang Chủ (Home) ────────────────────────────────────────────────────────
+function HomePage({ cart, setCart }) {
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
-  const [selectedProduct, setSelectedProduct] = useState(null); // Quản lý Trang chi tiết
-  const [searchQuery, setSearchQuery] = useState(""); // Từ khoá tìm kiếm
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // State quản lý giỏ hàng
-  const [cart, setCart] = useState([]);
 
   // Hàm thêm sản phẩm vào giỏ (Kế thừa tính năng Custom Quantity từ Chi tiết)
   const handleAddToCart = (product, addingQuantity = 1) => {
@@ -47,7 +48,6 @@ function App() {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === productId);
       if (!existingItem) return prevCart;
-
       if (existingItem.quantity > 1) {
         return prevCart.map(item =>
           item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
@@ -69,14 +69,13 @@ function App() {
     return total + price * item.quantity;
   }, 0);
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-  };
+  const formatPrice = (price) =>
+    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 
   const handleGoHome = () => {
-    setSelectedProduct(null); // Tắt chi tiết
-    setSelectedCategory("Tất cả"); // Quét mục Tất cả
-    setSearchQuery(""); // Xoá từ khoá tìm kiếm
+    setSelectedProduct(null);
+    setSelectedCategory("Tất cả");
+    setSearchQuery("");
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -99,14 +98,12 @@ function App() {
 
       <main className="main-content">
         {selectedProduct ? (
-          // HIỂN THỊ TRANG CHI TIẾT
           <ProductDetail
             product={selectedProduct}
             onBack={() => setSelectedProduct(null)}
             onAddToCart={handleAddToCart}
           />
         ) : (
-          // HIỂN THỊ TRANG CHỦ DANH SÁCH
           <>
             <CategoryMenu
               selectedCategory={selectedCategory}
@@ -201,7 +198,6 @@ function App() {
                           {formatPrice(item.salePrice ? item.salePrice : item.price)}
                         </p>
                       </div>
-
                       <div className="cart-item-actions">
                         <div className="qty-controls">
                           <button type="button" onClick={() => handleDecreaseQuantity(item.id)}>-</button>
@@ -238,6 +234,43 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+// ── Trang About (bọc thêm Header + Footer) ──────────────────────────────────
+function AboutPage() {
+  return (
+    <div className="app-container">
+      <Header goHome={() => {}} onOpenCart={() => {}} onOpenLogin={() => {}} onOpenRegister={() => {}} cartCount={0} searchQuery="" onSearch={() => {}} />
+      <main className="main-content"><About /></main>
+      <Footer />
+    </div>
+  );
+}
+
+// ── Trang Contact (bọc thêm Header + Footer) ────────────────────────────────
+function ContactPage() {
+  return (
+    <div className="app-container">
+      <Header goHome={() => {}} onOpenCart={() => {}} onOpenLogin={() => {}} onOpenRegister={() => {}} cartCount={0} searchQuery="" onSearch={() => {}} />
+      <main className="main-content"><Contact /></main>
+      <Footer />
+    </div>
+  );
+}
+
+// ── App Root với Router ──────────────────────────────────────────────────────
+function App() {
+  const [cart, setCart] = useState([]);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage cart={cart} setCart={setCart} />} />
+        <Route path="/about-us" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
