@@ -1,12 +1,19 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const Header = ({ goHome, onOpenCart, onOpenLogin, onOpenRegister, cartCount, searchQuery, onSearch }) => {
+const Header = ({ goHome, onOpenCart, cartCount, searchQuery, onSearch }) => {
   const navigate = useNavigate();
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
 
   const handleLogoClick = () => {
     navigate('/');
     if (goHome) goHome();
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (
@@ -46,25 +53,42 @@ const Header = ({ goHome, onOpenCart, onOpenLogin, onOpenRegister, cartCount, se
             type="text"
             className="search-input"
             placeholder="Tìm kiếm sản phẩm, danh mục..."
-            value={searchQuery}
-            onChange={(e) => onSearch(e.target.value)}
+            value={searchQuery || ''}
+            onChange={(e) => onSearch && onSearch(e.target.value)}
           />
         </div>
 
-        {/* Hành động (Giỏ hàng, Đăng nhập & Đăng ký) */}
+        {/* Hành động (Giỏ hàng, Auth) */}
         <div className="header-actions">
           <button className="cart-btn" aria-label="Giỏ hàng" onClick={onOpenCart}>
             🛒
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </button>
 
-          <button className="login-btn" onClick={onOpenLogin}>
-            Đăng nhập
-          </button>
-
-          <button className="register-btn" onClick={onOpenRegister}>
-            Đăng ký
-          </button>
+          {isAuthenticated ? (
+            /* ── Đã đăng nhập ── */
+            <div className="user-info">
+              {isAdmin && (
+                <button className="admin-btn" onClick={() => navigate('/admin')}>
+                  ⚙️ Quản lý (Admin)
+                </button>
+              )}
+              <span className="welcome-text">👋 {user?.username}</span>
+              <button className="logout-btn" onClick={handleLogout}>
+                Đăng xuất
+              </button>
+            </div>
+          ) : (
+            /* ── Chưa đăng nhập ── */
+            <>
+              <button className="login-btn" onClick={() => navigate('/login')}>
+                Đăng nhập
+              </button>
+              <button className="register-btn" onClick={() => navigate('/register')}>
+                Đăng ký
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>

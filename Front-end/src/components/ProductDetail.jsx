@@ -34,7 +34,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
       <div className="product-detail-grid">
         {/* Cột trái: Ảnh sản phẩm */}
         <div className="detail-image-box">
-          <img src={product.image} alt={product.name} className="detail-img" />
+          <img src={product.imageUrl || product.image} alt={product.name} className="detail-img" />
           {product.salePrice && <span className="detail-sale-badge">Đang Giảm Giá</span>}
         </div>
 

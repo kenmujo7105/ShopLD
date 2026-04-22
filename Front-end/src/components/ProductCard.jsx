@@ -11,7 +11,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
         {product.salePrice && (
           <span className="sale-badge">Sale</span>
         )}
-        <img src={product.image} alt={product.name} className="product-img" loading="lazy" />
+        <img src={product.imageUrl || product.image} alt={product.name} className="product-img" loading="lazy" />
       </div>
       
       <div className="product-info">
